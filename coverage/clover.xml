@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1754905386434" clover="3.2.0">
+  <project timestamp="1754905386434" name="All files">
+    <metrics statements="10" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="0" elements="13" coveredelements="0" complexity="0" loc="10" ncloc="10" packages="1" files="2" classes="2"/>
+    <file name="App.tsx" path="/home/vaddshah/Documents/study/react-testing-practice/src/App.tsx">
+      <metrics statements="6" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="0"/>
+      <line num="1" count="0" type="stmt"/>
+      <line num="2" count="0" type="stmt"/>
+      <line num="5" count="0" type="stmt"/>
+      <line num="7" count="0" type="stmt"/>
+      <line num="11" count="0" type="stmt"/>
+      <line num="25" count="0" type="stmt"/>
+    </file>
+    <file name="main.tsx" path="/home/vaddshah/Documents/study/react-testing-practice/src/main.tsx">
+      <metrics statements="4" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      <line num="1" count="0" type="stmt"/>
+      <line num="2" count="0" type="stmt"/>
+      <line num="3" count="0" type="stmt"/>
+      <line num="5" count="0" type="stmt"/>
+    </file>
+  </project>
+</coverage>
