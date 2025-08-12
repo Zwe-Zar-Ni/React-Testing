@@ -81,41 +81,45 @@ Import necessary modules in test file
 import "@testing-library/jest-dom";
 ```
 
-# BeforeAll
+## BeforeAll
 
 Run before all tests
 
-`````js
+```js
 beforeAll(() => {
   console.log("beforeAll");
 });
+```
 
-# BeforeEach
+## BeforeEach
 
 Run before each test
 
-````js
+```js
 beforeEach(() => {
   console.log("beforeEach");
 });
+```
 
-# AfterEach
+## AfterEach
 
 Run after each test
 
-````js
+```js
 afterEach(() => {
   console.log("afterEach");
 });
+```
 
-# AfterAll
+## AfterAll
 
 Run after all tests
 
-````js
+```js
 afterAll(() => {
   console.log("afterAll");
 });
+```
 
 # Unit tests
 
@@ -146,7 +150,7 @@ test("Object assignment", () => {
 test("there is 'shah' in 'vaddshah'", () => {
   expect("vaddshah").toMatch(/shah/);
 });
-`````
+```
 
 # Function Unit test
 
