@@ -1,5 +1,7 @@
 # React Testing with Jest + Reach Testing Library
 
+---
+
 ## Install and config Jest and React Testing Library
 
 ```js
@@ -73,7 +75,21 @@ Run
 npm run test
 ```
 
-## Writing tests
+### To test a specific file
+
+Add a script in package.json
+
+```js
+    "test-notes": "npx jest Notes.test.tsx"
+```
+
+Run
+
+```js
+npm run test-notes
+```
+
+### Writing tests
 
 Import necessary modules in test file
 
@@ -81,7 +97,7 @@ Import necessary modules in test file
 import "@testing-library/jest-dom";
 ```
 
-## BeforeAll
+### BeforeAll
 
 Run before all tests
 
@@ -91,7 +107,7 @@ beforeAll(() => {
 });
 ```
 
-## BeforeEach
+### BeforeEach
 
 Run before each test
 
@@ -101,7 +117,7 @@ beforeEach(() => {
 });
 ```
 
-## AfterEach
+### AfterEach
 
 Run after each test
 
@@ -111,7 +127,7 @@ afterEach(() => {
 });
 ```
 
-## AfterAll
+### AfterAll
 
 Run after all tests
 
@@ -121,7 +137,7 @@ afterAll(() => {
 });
 ```
 
-# Unit tests
+## Unit tests
 
 ```js
 import "@testing-library/jest-dom";
@@ -152,7 +168,7 @@ test("there is 'shah' in 'vaddshah'", () => {
 });
 ```
 
-# Function Unit test
+## Function Unit test
 
 ```js
 async function fetchData(): Promise<{ status: number, data: string }> {
@@ -169,7 +185,7 @@ test("fetchData should return 200", async () => {
 });
 ```
 
-# Grouping tests
+## Grouping tests
 
 ```js
 describe("Test promise response", () => {
@@ -186,7 +202,7 @@ describe("Test promise response", () => {
 });
 ```
 
-# Testing components
+## Testing components
 
 ```js
 describe("Testing Home component", () => {
@@ -213,3 +229,137 @@ describe("Testing Home component", () => {
   });
 });
 ```
+
+## Testing a form
+
+```js
+import "@testing-library/jest-dom";
+import Notes from "./Notes";
+import { render, screen, fireEvent } from "@testing-library/react";
+
+describe("Testing Notes component", () => {
+  beforeEach(() => {
+    render(<Notes />);
+  });
+  it("Should render a heading", () => {
+    const heading = screen.getByText(/Notes/i);
+    expect(heading).toBeInTheDocument();
+  });
+  it("Should render a form", () => {
+    const form = screen.getByRole("form");
+    expect(form).toBeInTheDocument();
+  });
+  it("Should render an input", () => {
+    const input = screen.getByRole("textbox");
+    expect(input).toBeInTheDocument();
+  });
+  it("Should render a button", () => {
+    const button = screen.getByRole("button");
+    expect(button).toBeInTheDocument();
+  });
+  it("Button should be disabled.", () => {
+    const button = screen.getByRole("button");
+    expect(button).toBeDisabled();
+  });
+  it("Fill input to make button enabled.", () => {
+    const button = screen.getByRole("button");
+    const input = screen.getByRole("textbox");
+    fireEvent.change(input, { target: { value: "Hello" } });
+    expect(input).toHaveValue("Hello");
+    expect(button).not.toBeDisabled();
+  });
+  it("Should render a list", () => {
+    const list = screen.getByTestId("notes-list");
+    expect(list).toBeInTheDocument();
+  });
+  it("List should have 0 items", () => {
+    const list = screen.getByTestId("notes-list");
+    // expect(list.querySelectorAll("li")).toHaveLength(0);
+    expect(list.children).toHaveLength(0);
+  });
+  it("Add a note, and list should have 2 items", () => {
+    const list = screen.getByTestId("notes-list");
+    const input = screen.getByRole("textbox");
+    const button = screen.getByRole("button");
+    fireEvent.change(input, { target: { value: "Hello" } });
+    fireEvent.click(button);
+    fireEvent.change(input, { target: { value: "World" } });
+    fireEvent.click(button);
+    expect(list.children).toHaveLength(2);
+  });
+});
+```
+
+## Testing api calls
+
+```js
+import "@testing-library/jest-dom";
+import Todos from "./Todos";
+import { render, screen, waitFor } from "@testing-library/react";
+
+const originalFetch = window.fetch;
+
+describe("Testing Todos component", () => {
+  afterEach(() => {
+    window.fetch = originalFetch;
+  });
+
+  it("Should render todo list.", async () => {
+    const mockData = [
+      { title: "Todo 1", completed: false },
+      { title: "Todo 2", completed: true },
+      { title: "Todo 3", completed: false },
+      { title: "Todo 4", completed: true },
+      { title: "Todo 5", completed: false }
+    ];
+    window.fetch = jest.fn().mockImplementation(() =>
+      Promise.resolve({
+        json: () => Promise.resolve(mockData)
+      })
+    );
+    render(<Todos />);
+    await waitFor(() => {
+      const todos = screen.getByTestId("todos-list");
+      expect(todos).toBeInTheDocument();
+      expect(todos.children).toHaveLength(5);
+      expect(todos.children[0]).toHaveTextContent("Todo 1");
+    });
+
+    expect(window.fetch).toHaveBeenCalledWith(
+      "https://jsonplaceholder.typicode.com/todos"
+    );
+  });
+
+  it("Should render photos list.", async () => {
+    const mockData = [
+      { title: "Photo 1" },
+      { title: "Photo 2" },
+      { title: "Photo 3" },
+      { title: "Photo 4" },
+      { title: "Photo 5" }
+    ];
+    window.fetch = jest.fn().mockImplementation(() =>
+      Promise.resolve({
+        json: () => Promise.resolve(mockData)
+      })
+    );
+    render(<Todos />);
+    await waitFor(() => {
+      const photos = screen.getByTestId("photos-list");
+      expect(photos).toBeInTheDocument();
+      expect(photos.children).toHaveLength(5);
+      expect(photos.children[0]).toHaveTextContent("Photo 1");
+    });
+
+    expect(window.fetch).toHaveBeenCalledWith(
+      "https://jsonplaceholder.typicode.com/photos"
+    );
+  });
+});
+```
+
+---
+
+# Next Step
+
+1.  Testing routing

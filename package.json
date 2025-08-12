@@ -8,7 +8,10 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "test": "jest"
+    "test": "jest",
+    "test-home": "npx jest Home.test.tsx",
+    "test-notes": "npx jest Notes.test.tsx",
+    "test-todos": "npx jest Todos.test.tsx"
   },
   "dependencies": {
     "react": "^19.1.1",
